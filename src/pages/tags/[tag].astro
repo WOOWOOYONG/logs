@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  const isProd = import.meta.env.PROD;
+  const notes = await getCollection('notes', ({ data }) => (isProd ? !data.draft : true));
+  const projects = await getCollection('projects', ({ data }) => (isProd ? !data.draft : true));
+  const streaming = await getCollection('streaming');
+
+  const tagMap = new Map<string, { notes: typeof notes; projects: typeof projects; streaming: typeof streaming }>();
+  const ensure = (t: string) => {
+    if (!tagMap.has(t)) tagMap.set(t, { notes: [], projects: [], streaming: [] });
+    return tagMap.get(t)!;
+  };
+  notes.forEach((n) => n.data.tags.forEach((t) => ensure(t).notes.push(n)));
+  projects.forEach((p) => p.data.tags.forEach((t) => ensure(t).projects.push(p)));
+  streaming.forEach((p) => p.data.tags.forEach((t) => ensure(t).streaming.push(p)));
+
+  return Array.from(tagMap.entries()).map(([tag, data]) => ({
+    params: { tag },
+    props: { tag, ...data },
+  }));
+}
+
+const { tag, notes, projects, streaming } = Astro.props;
+notes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title={`#${tag} · ${SITE_TITLE}`}>
+  <header class="mb-8">
+    <p class="text-sm text-neutral-500">tag</p>
+    <h1 class="text-3xl font-semibold tracking-tight">#{tag}</h1>
+    <p class="mt-1 text-sm text-neutral-500">
+      {notes.length} 篇文章 · {projects.length} 個作品 · {streaming.length} 則筆記
+    </p>
+  </header>
+
+  {notes.length > 0 && (
+    <section class="mb-10">
+      <h2 class="mb-3 text-lg font-semibold">文章</h2>
+      <div>
+        {notes.map((n) => (
+          <PostCard
+            href={`/notes/${n.id}`}
+            title={n.data.title}
+            description={n.data.description}
+            pubDate={n.data.pubDate}
+            tags={n.data.tags}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="mb-10">
+      <h2 class="mb-3 text-lg font-semibold">作品集</h2>
+      <div class="grid gap-5 sm:grid-cols-2">
+        {projects.map((p) => (
+          <ProjectCard
+            href={`/projects/${p.id}`}
+            title={p.data.title}
+            description={p.data.description}
+            cover={p.data.cover}
+            tags={p.data.tags}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {streaming.length > 0 && (
+    <section class="mb-10">
+      <h2 class="mb-3 text-lg font-semibold">Streaming</h2>
+      <ul class="space-y-1 text-sm">
+        {streaming.map((p) => (
+          <li>
+            <a href="/streaming" class="text-neutral-600 hover:text-black">
+              · {p.data.pubDate.toISOString().slice(0, 10)} — {p.id}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Layout>

@@ -1,11 +1,97 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getCollection, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import NoteCard from '../components/NoteCard.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const isProd = import.meta.env.PROD;
+
+// 個人文章
+const notes = (await getCollection('notes', ({ data }) => (isProd ? !data.draft : true)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const projects = (await getCollection('projects', ({ data }) => (isProd ? !data.draft : true)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+// Streaming
+const posts = (await getCollection('streaming'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const renderedPosts = await Promise.all(
+  posts.map(async (p) => ({ post: p, Content: (await render(p)).Content })),
+);
 ---
 
 <Layout>
-	<Welcome />
+  <section class="mb-12">
+    <h1 class="text-3xl font-semibold tracking-tight">嗨，我是 WOOWOOYONG 👋</h1>
+    <p class="mt-3 text-neutral-600">
+      這裡記錄我的文章、作品集，以及日常的 Streaming。
+    </p>
+  </section>
+
+  <section class="mb-12">
+    <div class="mb-3 flex items-baseline justify-between">
+      <h2 class="text-lg font-semibold">最新文章</h2>
+      <a href="/notes" class="text-sm text-neutral-500 hover:text-black">全部 →</a>
+    </div>
+    {notes.length === 0 ? (
+      <p class="text-sm text-neutral-500">還沒有文章。</p>
+    ) : (
+      <div>
+        {notes.map((n) => (
+          <PostCard
+            href={`/notes/${n.id}`}
+            title={n.data.title}
+            description={n.data.description}
+            pubDate={n.data.pubDate}
+            tags={n.data.tags}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="mb-12">
+    <div class="mb-3 flex items-baseline justify-between">
+      <h2 class="text-lg font-semibold">作品集</h2>
+      <a href="/projects" class="text-sm text-neutral-500 hover:text-black">全部 →</a>
+    </div>
+    {projects.length === 0 ? (
+      <p class="text-sm text-neutral-500">還沒有作品。</p>
+    ) : (
+      <div class="grid gap-5 sm:grid-cols-2">
+        {projects.map((p) => (
+          <ProjectCard
+            href={`/projects/${p.id}`}
+            title={p.data.title}
+            description={p.data.description}
+            cover={p.data.cover}
+            tags={p.data.tags}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="mb-4">
+    <div class="mb-3 flex items-baseline justify-between">
+      <h2 class="text-lg font-semibold">Streaming</h2>
+      <a href="/streaming" class="text-sm text-neutral-500 hover:text-black">全部 →</a>
+    </div>
+    {renderedPosts.length === 0 ? (
+      <p class="text-sm text-neutral-500">還沒有筆記。</p>
+    ) : (
+      <div class="space-y-4">
+        {renderedPosts.map(({ post, Content }) => (
+          <NoteCard pubDate={post.data.pubDate} tags={post.data.tags}>
+            <Content />
+          </NoteCard>
+        ))}
+      </div>
+    )}
+  </section>
 </Layout>

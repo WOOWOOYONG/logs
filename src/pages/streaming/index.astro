@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import { SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('streaming')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const rendered = await Promise.all(
+  posts.map(async (p) => ({ post: p, Content: (await render(p)).Content })),
+);
+---
+
+<Layout title={`Streaming · ${SITE_TITLE}`} description="Streaming — 快速紀錄想法與工具。">
+  <header class="mb-6">
+    <h1 class="text-2xl font-semibold tracking-tight">Streaming</h1>
+  </header>
+  {posts.length === 0 && <p class="text-sm text-neutral-500">還沒有筆記。</p>}
+  <div class="space-y-4">
+    {rendered.map(({ post, Content }) => (
+      <NoteCard pubDate={post.data.pubDate} tags={post.data.tags}>
+        <Content />
+      </NoteCard>
+    ))}
+  </div>
+</Layout>
