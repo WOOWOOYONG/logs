@@ -1,0 +1,37 @@
+---
+import { SITE_TITLE } from '../consts';
+
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/notes', label: 'Notes' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/streaming', label: 'Streaming' },
+];
+
+function isActive(href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href + '/');
+}
+---
+
+<nav class="border-b border-neutral-200">
+  <div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
+    <a href="/" class="font-semibold tracking-tight">{SITE_TITLE}</a>
+    <ul class="flex gap-5 text-sm">
+      {links.slice(1).map((l) => (
+        <li>
+          <a
+            href={l.href}
+            class:list={[
+              'hover:text-black transition-colors',
+              isActive(l.href) ? 'text-black font-medium' : 'text-neutral-500',
+            ]}
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>

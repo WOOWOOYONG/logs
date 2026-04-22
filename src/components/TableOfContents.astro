@@ -1,0 +1,94 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 0 && (
+  <nav
+    aria-label="Table of contents"
+    class="hidden lg:block lg:sticky lg:top-6 lg:w-56 lg:shrink-0 lg:self-start"
+    data-toc
+  >
+    <p class="mb-2 text-xs font-medium tracking-wide text-neutral-400 uppercase">
+      On this page
+    </p>
+    <ul class="space-y-1 text-sm">
+      {items.map((h) => (
+        <li class:list={[h.depth === 3 && 'pl-3']}>
+          <a
+            href={`#${h.slug}`}
+            data-toc-link={h.slug}
+            class="block truncate border-l-2 border-transparent pl-2 text-neutral-500 transition-colors hover:text-neutral-900"
+          >{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  const toc = document.querySelector<HTMLElement>('[data-toc]');
+  if (toc) {
+    const links = new Map<string, HTMLAnchorElement>();
+    toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]').forEach((a) => {
+      links.set(a.dataset.tocLink!, a);
+    });
+
+    const headings = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        '.prose-basic h2[id], .prose-basic h3[id]',
+      ),
+    );
+
+    const ACTIVE = ['text-neutral-900', 'font-medium', 'border-neutral-900'];
+    const INACTIVE = ['text-neutral-500', 'border-transparent'];
+
+    let currentSlug: string | null = null;
+    const setActive = (slug: string | null) => {
+      if (slug === currentSlug) return;
+      if (currentSlug) {
+        const prev = links.get(currentSlug);
+        prev?.classList.remove(...ACTIVE);
+        prev?.classList.add(...INACTIVE);
+      }
+      currentSlug = slug;
+      if (slug) {
+        const next = links.get(slug);
+        next?.classList.remove(...INACTIVE);
+        next?.classList.add(...ACTIVE);
+      }
+    };
+
+    const pickActive = () => {
+      const triggerY = window.innerHeight * 0.25;
+      let candidate: string | null = headings[0]?.id ?? null;
+      for (const h of headings) {
+        const top = h.getBoundingClientRect().top;
+        if (top <= triggerY) candidate = h.id;
+        else break;
+      }
+      // 到頁底時強制高亮最後一個
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2
+      ) {
+        candidate = headings[headings.length - 1]?.id ?? candidate;
+      }
+      setActive(candidate);
+    };
+
+    pickActive();
+    window.addEventListener('scroll', pickActive, { passive: true });
+    window.addEventListener('resize', pickActive);
+  }
+</script>
