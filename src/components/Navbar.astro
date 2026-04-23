@@ -19,16 +19,16 @@ function isActive(href: string) {
   <div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
     <a href="/" class="font-semibold tracking-tight">{SITE_TITLE}</a>
     <ul class="flex gap-5 text-sm">
-      {links.slice(1).map((l) => (
+      {links.slice(1).map((link) => (
         <li>
           <a
-            href={l.href}
+            href={link.href}
             class:list={[
               'hover:text-black transition-colors',
-              isActive(l.href) ? 'text-black font-medium' : 'text-neutral-500',
+              isActive(link.href) ? 'text-black font-medium' : 'text-neutral-500',
             ]}
           >
-            {l.label}
+            {link.label}
           </a>
         </li>
       ))}

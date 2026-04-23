@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { headings } = Astro.props;
-const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const items = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 ---
 
 {items.length > 0 && (
@@ -23,13 +23,13 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
       On this page
     </p>
     <ul class="space-y-1 text-sm">
-      {items.map((h) => (
-        <li class:list={[h.depth === 3 && 'pl-3']}>
+      {items.map((heading) => (
+        <li class:list={[heading.depth === 3 && 'pl-3']}>
           <a
-            href={`#${h.slug}`}
-            data-toc-link={h.slug}
+            href={`#${heading.slug}`}
+            data-toc-link={heading.slug}
             class="block truncate border-l-2 border-transparent pl-2 text-neutral-500 transition-colors hover:text-neutral-900"
-          >{h.text}</a>
+          >{heading.text}</a>
         </li>
       ))}
     </ul>
@@ -40,8 +40,8 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
   const toc = document.querySelector<HTMLElement>('[data-toc]');
   if (toc) {
     const links = new Map<string, HTMLAnchorElement>();
-    toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]').forEach((a) => {
-      links.set(a.dataset.tocLink!, a);
+    toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]').forEach((anchor) => {
+      links.set(anchor.dataset.tocLink!, anchor);
     });
 
     const headings = Array.from(

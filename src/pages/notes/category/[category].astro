@@ -19,21 +19,21 @@ export async function getStaticPaths() {
   ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   const counts: Partial<Record<CategorySlug, number>> = {};
-  for (const c of CATEGORIES) counts[c.slug] = 0;
+  for (const category of CATEGORIES) counts[category.slug] = 0;
   const byCat: Partial<Record<CategorySlug, typeof notes>> = {};
-  for (const n of notes) {
-    const c = getCategory(n.data.tags);
-    counts[c] = (counts[c] ?? 0) + 1;
-    (byCat[c] ??= []).push(n);
+  for (const note of notes) {
+    const category = getCategory(note.data.tags);
+    counts[category] = (counts[category] ?? 0) + 1;
+    (byCat[category] ??= []).push(note);
   }
 
-  return CATEGORIES.map((c) => {
-    const items = byCat[c.slug] ?? [];
+  return CATEGORIES.map((category) => {
+    const items = byCat[category.slug] ?? [];
     const lastPage = Math.max(1, Math.ceil(items.length / NOTES_PAGE_SIZE));
     return {
-      params: { category: c.slug },
+      params: { category: category.slug },
       props: {
-        slug: c.slug,
+        slug: category.slug,
         items: items.slice(0, NOTES_PAGE_SIZE),
         lastPage,
         counts,
@@ -62,13 +62,13 @@ const page = { currentPage: 1, lastPage };
         <p class="text-sm text-neutral-500">此分類尚無文章。</p>
       )}
 
-      {items.map((n) => (
+      {items.map((note) => (
         <PostCard
-          href={`/notes/${n.id}`}
-          title={n.data.title}
-          description={n.data.description}
-          pubDate={n.data.pubDate}
-          tags={n.data.tags}
+          href={`/notes/${note.id}`}
+          title={note.data.title}
+          description={note.data.description}
+          pubDate={note.data.pubDate}
+          tags={note.data.tags}
         />
       ))}
 

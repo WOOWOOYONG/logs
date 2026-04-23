@@ -18,13 +18,13 @@ const projects = (
   </header>
   {projects.length === 0 && <p class="text-sm text-neutral-500">還沒有作品。</p>}
   <div class="grid gap-5 sm:grid-cols-2">
-    {projects.map((p) => (
+    {projects.map((project) => (
       <ProjectCard
-        href={`/projects/${p.id}`}
-        title={p.data.title}
-        description={p.data.description}
-        cover={p.data.cover}
-        tags={p.data.tags}
+        href={`/projects/${project.id}`}
+        title={project.data.title}
+        description={project.data.description}
+        cover={project.data.cover}
+        tags={project.data.tags}
       />
     ))}
   </div>

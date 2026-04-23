@@ -9,7 +9,7 @@ export const CATEGORIES = [
 export type CategorySlug = (typeof CATEGORIES)[number]['slug'];
 
 export function getCategoryName(slug: CategorySlug): string {
-  return CATEGORIES.find((c) => c.slug === slug)!.name;
+  return CATEGORIES.find((category) => category.slug === slug)!.name;
 }
 
 export function getCategory(tags: string[]): CategorySlug {

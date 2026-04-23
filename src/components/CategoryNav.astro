@@ -10,11 +10,11 @@ const { counts, total, active = 'all' } = Astro.props;
 
 const items = [
   { slug: 'all' as const, name: 'All', href: '/notes', count: total },
-  ...CATEGORIES.map((c) => ({
-    slug: c.slug,
-    name: c.name,
-    href: `/notes/category/${c.slug}`,
-    count: counts[c.slug] ?? 0,
+  ...CATEGORIES.map((category) => ({
+    slug: category.slug,
+    name: category.name,
+    href: `/notes/category/${category.slug}`,
+    count: counts[category.slug] ?? 0,
   })),
 ];
 ---

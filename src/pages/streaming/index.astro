@@ -9,7 +9,7 @@ const posts = (await getCollection('streaming')).sort(
 );
 
 const rendered = await Promise.all(
-  posts.map(async (p) => ({ post: p, Content: (await render(p)).Content })),
+  posts.map(async (post) => ({ post, Content: (await render(post)).Content })),
 );
 ---
 

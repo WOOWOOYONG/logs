@@ -12,13 +12,13 @@ export async function getStaticPaths() {
   const streaming = await getCollection('streaming');
 
   const tagMap = new Map<string, { notes: typeof notes; projects: typeof projects; streaming: typeof streaming }>();
-  const ensure = (t: string) => {
-    if (!tagMap.has(t)) tagMap.set(t, { notes: [], projects: [], streaming: [] });
-    return tagMap.get(t)!;
+  const ensure = (tag: string) => {
+    if (!tagMap.has(tag)) tagMap.set(tag, { notes: [], projects: [], streaming: [] });
+    return tagMap.get(tag)!;
   };
-  notes.forEach((n) => n.data.tags.forEach((t) => ensure(t).notes.push(n)));
-  projects.forEach((p) => p.data.tags.forEach((t) => ensure(t).projects.push(p)));
-  streaming.forEach((p) => p.data.tags.forEach((t) => ensure(t).streaming.push(p)));
+  notes.forEach((note) => note.data.tags.forEach((tag) => ensure(tag).notes.push(note)));
+  projects.forEach((project) => project.data.tags.forEach((tag) => ensure(tag).projects.push(project)));
+  streaming.forEach((post) => post.data.tags.forEach((tag) => ensure(tag).streaming.push(post)));
 
   return Array.from(tagMap.entries()).map(([tag, data]) => ({
     params: { tag },
@@ -44,13 +44,13 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     <section class="mb-10">
       <h2 class="mb-3 text-lg font-semibold">文章</h2>
       <div>
-        {notes.map((n) => (
+        {notes.map((note) => (
           <PostCard
-            href={`/notes/${n.id}`}
-            title={n.data.title}
-            description={n.data.description}
-            pubDate={n.data.pubDate}
-            tags={n.data.tags}
+            href={`/notes/${note.id}`}
+            title={note.data.title}
+            description={note.data.description}
+            pubDate={note.data.pubDate}
+            tags={note.data.tags}
           />
         ))}
       </div>
@@ -61,13 +61,13 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     <section class="mb-10">
       <h2 class="mb-3 text-lg font-semibold">作品集</h2>
       <div class="grid gap-5 sm:grid-cols-2">
-        {projects.map((p) => (
+        {projects.map((project) => (
           <ProjectCard
-            href={`/projects/${p.id}`}
-            title={p.data.title}
-            description={p.data.description}
-            cover={p.data.cover}
-            tags={p.data.tags}
+            href={`/projects/${project.id}`}
+            title={project.data.title}
+            description={project.data.description}
+            cover={project.data.cover}
+            tags={project.data.tags}
           />
         ))}
       </div>
@@ -78,10 +78,10 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     <section class="mb-10">
       <h2 class="mb-3 text-lg font-semibold">Streaming</h2>
       <ul class="space-y-1 text-sm">
-        {streaming.map((p) => (
+        {streaming.map((post) => (
           <li>
             <a href="/streaming" class="text-neutral-600 hover:text-black">
-              · {p.data.pubDate.toISOString().slice(0, 10)} — {p.id}
+              · {post.data.pubDate.toISOString().slice(0, 10)} — {post.id}
             </a>
           </li>
         ))}

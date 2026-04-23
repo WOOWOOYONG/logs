@@ -9,10 +9,10 @@ interface Props {
 const { page, basePath = '/notes' } = Astro.props;
 const { currentPage, lastPage } = page;
 
-const hrefFor = (n: number) => (n === 1 ? basePath : `${basePath}/page/${n}`);
+const hrefFor = (pageNum: number) => (pageNum === 1 ? basePath : `${basePath}/page/${pageNum}`);
 const prev = currentPage > 1 ? hrefFor(currentPage - 1) : undefined;
 const next = currentPage < lastPage ? hrefFor(currentPage + 1) : undefined;
-const pages = Array.from({ length: lastPage }, (_, i) => i + 1);
+const pages = Array.from({ length: lastPage }, (_, index) => index + 1);
 ---
 
 {lastPage > 1 && (
@@ -23,11 +23,11 @@ const pages = Array.from({ length: lastPage }, (_, i) => i + 1);
       <span class="pointer-events-none rounded border border-neutral-200 px-3 py-1 text-neutral-300">← 上一頁</span>
     )}
 
-    {pages.map((n) => (
-      n === currentPage ? (
-        <span aria-current="page" class="rounded bg-neutral-900 px-3 py-1 text-white">{n}</span>
+    {pages.map((pageNum) => (
+      pageNum === currentPage ? (
+        <span aria-current="page" class="rounded bg-neutral-900 px-3 py-1 text-white">{pageNum}</span>
       ) : (
-        <a href={hrefFor(n)} class="rounded border border-neutral-200 px-3 py-1 hover:bg-neutral-100">{n}</a>
+        <a href={hrefFor(pageNum)} class="rounded border border-neutral-200 px-3 py-1 hover:bg-neutral-100">{pageNum}</a>
       )
     ))}
 
