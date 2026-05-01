@@ -1,0 +1,20 @@
+---
+type Tech = 'Vue' | 'Nuxt' | 'TypeScript' | 'Tailwind';
+
+interface Props {
+  name: Tech;
+}
+
+const { name } = Astro.props;
+
+const styles: Record<Tech, string> = {
+  Vue: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+  Nuxt: 'border-green-200 bg-green-50 text-green-800',
+  TypeScript: 'border-blue-200 bg-blue-50 text-blue-700',
+  Tailwind: 'border-sky-200 bg-sky-50 text-sky-700',
+};
+---
+
+<li class={`rounded-full border px-3 py-1 text-xs font-medium transition hover:brightness-95 ${styles[name]}`}>
+  {name}
+</li>
