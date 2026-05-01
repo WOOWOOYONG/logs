@@ -1,23 +1,23 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import TagList from '@/components/TagList.astro';
-import TableOfContents from '@/components/TableOfContents.astro';
+import Layout from '@/layouts/Layout.astro'
+import TagList from '@/components/TagList.astro'
+import TableOfContents from '@/components/TableOfContents.astro'
 
 interface Heading {
-  depth: number;
-  slug: string;
-  text: string;
+  depth: number
+  slug: string
+  text: string
 }
 
 interface Props {
-  title: string;
-  description?: string;
-  pubDate: Date;
-  tags?: string[];
-  headings?: Heading[];
+  title: string
+  description?: string
+  pubDate: Date
+  tags?: string[]
+  headings?: Heading[]
 }
-const { title, description, pubDate, tags = [], headings = [] } = Astro.props;
-const dateStr = pubDate.toISOString().slice(0, 10);
+const { title, description, pubDate, tags = [], headings = [] } = Astro.props
+const dateStr = pubDate.toISOString().slice(0, 10)
 ---
 
 <Layout title={title} description={description}>

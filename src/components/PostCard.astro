@@ -1,24 +1,30 @@
 ---
-import TagList from './TagList.astro';
+import TagList from './TagList.astro'
 
 interface Props {
-  href: string;
-  title: string;
-  description?: string;
-  pubDate: Date;
-  tags?: string[];
+  href: string
+  title: string
+  description?: string
+  pubDate: Date
+  tags?: string[]
 }
-const { href, title, description, pubDate, tags = [] } = Astro.props;
-const dateStr = pubDate.toISOString().slice(0, 10);
+const { href, title, description, pubDate, tags = [] } = Astro.props
+const dateStr = pubDate.toISOString().slice(0, 10)
 ---
 
-<article class="py-5 border-b border-neutral-100 last:border-0">
+<article class="border-b border-neutral-100 py-5 last:border-0">
   <a href={href} class="group block">
     <div class="flex items-baseline justify-between gap-4">
-      <h3 class="text-base font-medium group-hover:underline underline-offset-4">{title}</h3>
+      <h3 class="text-base font-medium underline-offset-4 group-hover:underline">{title}</h3>
       <time class="shrink-0 text-xs text-neutral-400" datetime={dateStr}>{dateStr}</time>
     </div>
-    {description && <p class="mt-1.5 text-sm text-neutral-600 line-clamp-2">{description}</p>}
+    {description && <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600">{description}</p>}
   </a>
-  {tags.length > 0 && <div class="mt-2"><TagList tags={tags} size="xs" /></div>}
+  {
+    tags.length > 0 && (
+      <div class="mt-2">
+        <TagList tags={tags} size="xs" />
+      </div>
+    )
+  }
 </article>

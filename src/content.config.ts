@@ -1,6 +1,6 @@
-import { defineCollection } from 'astro:content';
-import { z } from 'zod';
-import { glob } from 'astro/loaders';
+import { defineCollection } from 'astro:content'
+import { z } from 'zod'
+import { glob } from 'astro/loaders'
 
 // 個人文章（原 posts）
 const notes = defineCollection({
@@ -12,7 +12,7 @@ const notes = defineCollection({
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),
-});
+})
 
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
@@ -27,7 +27,7 @@ const projects = defineCollection({
       repo: z.url().optional(),
       draft: z.boolean().default(false),
     }),
-});
+})
 
 // Logs
 const logs = defineCollection({
@@ -36,6 +36,6 @@ const logs = defineCollection({
     pubDate: z.coerce.date(),
     tags: z.array(z.string()).default([]),
   }),
-});
+})
 
-export const collections = { notes, projects, logs };
+export const collections = { notes, projects, logs }

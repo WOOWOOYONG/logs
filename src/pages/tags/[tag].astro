@@ -1,34 +1,37 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '@/layouts/Layout.astro';
-import PostCard from '@/components/PostCard.astro';
-import ProjectCard from '@/components/ProjectCard.astro';
-import { SITE_TITLE } from '@/consts';
+import { getCollection } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import PostCard from '@/components/PostCard.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+import { SITE_TITLE } from '@/consts'
 
 export async function getStaticPaths() {
-  const isProd = import.meta.env.PROD;
-  const notes = await getCollection('notes', ({ data }) => (isProd ? !data.draft : true));
-  const projects = await getCollection('projects', ({ data }) => (isProd ? !data.draft : true));
-  const logs = await getCollection('logs');
+  const isProd = import.meta.env.PROD
+  const notes = await getCollection('notes', ({ data }) => (isProd ? !data.draft : true))
+  const projects = await getCollection('projects', ({ data }) => (isProd ? !data.draft : true))
+  const logs = await getCollection('logs')
 
-  const tagMap = new Map<string, { notes: typeof notes; projects: typeof projects; logs: typeof logs }>();
+  const tagMap = new Map<
+    string,
+    { notes: typeof notes; projects: typeof projects; logs: typeof logs }
+  >()
   const ensure = (t: string) => {
-    if (!tagMap.has(t)) tagMap.set(t, { notes: [], projects: [], logs: [] });
-    return tagMap.get(t)!;
-  };
-  notes.forEach((n) => n.data.tags.forEach((t) => ensure(t).notes.push(n)));
-  projects.forEach((p) => p.data.tags.forEach((t) => ensure(t).projects.push(p)));
-  logs.forEach((p) => p.data.tags.forEach((t) => ensure(t).logs.push(p)));
+    if (!tagMap.has(t)) tagMap.set(t, { notes: [], projects: [], logs: [] })
+    return tagMap.get(t)!
+  }
+  notes.forEach((n) => n.data.tags.forEach((t) => ensure(t).notes.push(n)))
+  projects.forEach((p) => p.data.tags.forEach((t) => ensure(t).projects.push(p)))
+  logs.forEach((p) => p.data.tags.forEach((t) => ensure(t).logs.push(p)))
 
   return Array.from(tagMap.entries()).map(([tag, data]) => ({
     params: { tag },
     props: { tag, ...data },
-  }));
+  }))
 }
 
-const { tag, notes, projects, logs } = Astro.props;
-notes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const { tag, notes, projects, logs } = Astro.props
+notes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 ---
 
 <Layout title={`#${tag} · ${SITE_TITLE}`}>
@@ -40,52 +43,58 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     </p>
   </header>
 
-  {notes.length > 0 && (
-    <section class="mb-10">
-      <h2 class="mb-3 text-lg font-semibold">文章</h2>
-      <div>
-        {notes.map((note) => (
-          <PostCard
-            href={`/notes/${note.id}`}
-            title={note.data.title}
-            description={note.data.description}
-            pubDate={note.data.pubDate}
-            tags={note.data.tags}
-          />
-        ))}
-      </div>
-    </section>
-  )}
+  {
+    notes.length > 0 && (
+      <section class="mb-10">
+        <h2 class="mb-3 text-lg font-semibold">文章</h2>
+        <div>
+          {notes.map((n) => (
+            <PostCard
+              href={`/notes/${n.id}`}
+              title={n.data.title}
+              description={n.data.description}
+              pubDate={n.data.pubDate}
+              tags={n.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
-  {projects.length > 0 && (
-    <section class="mb-10">
-      <h2 class="mb-3 text-lg font-semibold">作品集</h2>
-      <div class="grid gap-5 sm:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard
-            href={`/projects/${project.id}`}
-            title={project.data.title}
-            description={project.data.description}
-            cover={project.data.cover}
-            tags={project.data.tags}
-          />
-        ))}
-      </div>
-    </section>
-  )}
+  {
+    projects.length > 0 && (
+      <section class="mb-10">
+        <h2 class="mb-3 text-lg font-semibold">作品集</h2>
+        <div class="grid gap-5 sm:grid-cols-2">
+          {projects.map((p) => (
+            <ProjectCard
+              href={`/projects/${p.id}`}
+              title={p.data.title}
+              description={p.data.description}
+              cover={p.data.cover}
+              tags={p.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
-  {logs.length > 0 && (
-    <section class="mb-10">
-      <h2 class="mb-3 text-lg font-semibold">Logs</h2>
-      <ul class="space-y-1 text-sm">
-        {logs.map((p) => (
-          <li>
-            <a href="/logs" class="text-neutral-600 hover:text-black">
-              · {p.data.pubDate.toISOString().slice(0, 10)} — {p.id}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
+  {
+    logs.length > 0 && (
+      <section class="mb-10">
+        <h2 class="mb-3 text-lg font-semibold">Logs</h2>
+        <ul class="space-y-1 text-sm">
+          {logs.map((p) => (
+            <li>
+              <a href="/logs" class="text-neutral-600 hover:text-black">
+                · {p.data.pubDate.toISOString().slice(0, 10)} — {p.id}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 </Layout>

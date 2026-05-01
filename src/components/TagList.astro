@@ -1,26 +1,28 @@
 ---
 interface Props {
-  tags: string[];
-  size?: 'sm' | 'xs';
+  tags: string[]
+  size?: 'sm' | 'xs'
 }
-const { tags, size = 'sm' } = Astro.props;
-const textCls = size === 'xs' ? 'text-[11px]' : 'text-xs';
+const { tags, size = 'sm' } = Astro.props
+const textCls = size === 'xs' ? 'text-[11px]' : 'text-xs'
 ---
 
-{tags.length > 0 && (
-  <ul class="flex flex-wrap gap-1.5">
-    {tags.map((tag) => (
-      <li>
-        <a
-          href={`/tags/${tag}`}
-          class:list={[
-            'inline-block rounded-full border border-neutral-200 px-2 py-0.5 text-neutral-600 hover:border-neutral-400 hover:text-neutral-900',
-            textCls,
-          ]}
-        >
-          #{tag}
-        </a>
-      </li>
-    ))}
-  </ul>
-)}
+{
+  tags.length > 0 && (
+    <ul class="flex flex-wrap gap-1.5">
+      {tags.map((t) => (
+        <li>
+          <a
+            href={`/tags/${t}`}
+            class:list={[
+              'inline-block rounded-full border border-neutral-200 px-2 py-0.5 text-neutral-600 hover:border-neutral-400 hover:text-neutral-900',
+              textCls,
+            ]}
+          >
+            #{t}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

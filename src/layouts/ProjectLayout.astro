@@ -1,20 +1,20 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
-import Layout from '@/layouts/Layout.astro';
-import TagList from '@/components/TagList.astro';
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
+import Layout from '@/layouts/Layout.astro'
+import TagList from '@/components/TagList.astro'
 
 interface Props {
-  title: string;
-  description: string;
-  pubDate: Date;
-  cover: ImageMetadata;
-  tags?: string[];
-  link?: string;
-  repo?: string;
+  title: string
+  description: string
+  pubDate: Date
+  cover: ImageMetadata
+  tags?: string[]
+  link?: string
+  repo?: string
 }
-const { title, description, pubDate, cover, tags = [], link, repo } = Astro.props;
-const dateStr = pubDate.toISOString().slice(0, 10);
+const { title, description, pubDate, cover, tags = [], link, repo } = Astro.props
+const dateStr = pubDate.toISOString().slice(0, 10)
 ---
 
 <Layout title={title} description={description}>
@@ -28,8 +28,20 @@ const dateStr = pubDate.toISOString().slice(0, 10);
       <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-neutral-500">
         <time datetime={dateStr}>{dateStr}</time>
         <TagList tags={tags} size="xs" />
-        {link && <a href={link} target="_blank" rel="noopener" class="underline underline-offset-4">Live ↗</a>}
-        {repo && <a href={repo} target="_blank" rel="noopener" class="underline underline-offset-4">Repo ↗</a>}
+        {
+          link && (
+            <a href={link} target="_blank" rel="noopener" class="underline underline-offset-4">
+              Live ↗
+            </a>
+          )
+        }
+        {
+          repo && (
+            <a href={repo} target="_blank" rel="noopener" class="underline underline-offset-4">
+              Repo ↗
+            </a>
+          )
+        }
       </div>
     </header>
     <div class="prose-basic">

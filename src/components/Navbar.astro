@@ -1,17 +1,17 @@
 ---
-import { SITE_TITLE } from '@/consts';
+import { SITE_TITLE } from '@/consts'
 
-const pathname = Astro.url.pathname;
+const pathname = Astro.url.pathname
 const links = [
   { href: '/', label: 'Home' },
   { href: '/notes', label: 'Notes' },
   { href: '/projects', label: 'Projects' },
   { href: '/logs', label: 'Logs' },
-];
+]
 
 function isActive(href: string) {
-  if (href === '/') return pathname === '/';
-  return pathname === href || pathname.startsWith(href + '/');
+  if (href === '/') return pathname === '/'
+  return pathname === href || pathname.startsWith(href + '/')
 }
 ---
 
@@ -19,19 +19,21 @@ function isActive(href: string) {
   <div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
     <a href="/" class="font-semibold tracking-tight">{SITE_TITLE}</a>
     <ul class="flex gap-5 text-sm">
-      {links.slice(1).map((link) => (
-        <li>
-          <a
-            href={link.href}
-            class:list={[
-              'hover:text-black transition-colors font-medium',
-              isActive(link.href) ? 'text-black font-bold' : 'text-neutral-500',
-            ]}
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
+      {
+        links.slice(1).map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class:list={[
+                'font-medium transition-colors hover:text-black',
+                isActive(l.href) ? 'font-bold text-black' : 'text-neutral-500',
+              ]}
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </nav>

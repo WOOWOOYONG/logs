@@ -1,48 +1,57 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "PingFang TC", "Noto Sans TC", sans-serif;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    'PingFang TC',
+    'Noto Sans TC',
+    sans-serif;
 }
 
 .prose-basic :where(h1, h2, h3, h4, h5, h6) {
   scroll-margin-top: 1.5rem;
 }
 .prose-basic :where(h1) {
-  @apply text-2xl font-semibold mt-8 mb-3;
+  @apply mt-8 mb-3 text-2xl font-semibold;
 }
 .prose-basic :where(h2) {
-  @apply text-xl font-semibold mt-8 mb-3;
+  @apply mt-8 mb-3 text-xl font-semibold;
 }
 .prose-basic :where(h3) {
-  @apply text-lg font-semibold mt-6 mb-2;
+  @apply mt-6 mb-2 text-lg font-semibold;
 }
 .prose-basic :where(p) {
-  @apply leading-7 my-4 text-neutral-800;
+  @apply my-4 leading-7 text-neutral-800;
 }
 .prose-basic :where(a) {
-  @apply underline underline-offset-4 decoration-neutral-300 hover:decoration-neutral-700;
+  @apply underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-700;
 }
 .prose-basic :where(ul) {
-  @apply list-disc pl-6 my-4 space-y-1;
+  @apply my-4 list-disc space-y-1 pl-6;
 }
 .prose-basic :where(ol) {
-  @apply list-decimal pl-6 my-4 space-y-1;
+  @apply my-4 list-decimal space-y-1 pl-6;
 }
 .prose-basic :where(code) {
   @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm;
 }
 .prose-basic :where(pre) {
-  @apply rounded-lg bg-neutral-900 text-neutral-50 p-4 overflow-x-auto my-4 text-sm;
+  @apply my-4 overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-50;
 }
 .prose-basic :where(pre code) {
   @apply bg-transparent p-0;
 }
 .prose-basic :where(blockquote) {
-  @apply border-l-4 border-neutral-200 pl-4 italic text-neutral-600 my-4;
+  @apply my-4 border-l-4 border-neutral-200 pl-4 text-neutral-600 italic;
 }
 .prose-basic :where(img) {
-  @apply rounded-lg my-4;
+  @apply my-4 rounded-lg;
 }
 .prose-basic :where(hr) {
   @apply my-8 border-neutral-200;

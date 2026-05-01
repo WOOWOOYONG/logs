@@ -4,16 +4,16 @@ export const CATEGORIES = [
   { slug: 'typescript', name: 'TypeScript' },
   { slug: 'web-performance', name: 'Web / Performance' },
   { slug: 'others', name: 'Others' },
-] as const;
+] as const
 
-export type CategorySlug = (typeof CATEGORIES)[number]['slug'];
+export type CategorySlug = (typeof CATEGORIES)[number]['slug']
 
 export function getCategoryName(slug: CategorySlug): string {
-  return CATEGORIES.find((category) => category.slug === slug)!.name;
+  return CATEGORIES.find((c) => c.slug === slug)!.name
 }
 
 export function getCategory(tags: string[]): CategorySlug {
-  const set = new Set(tags);
+  const set = new Set(tags)
 
   // Others 優先（CSS / 演算法 / 測試）
   if (
@@ -25,11 +25,11 @@ export function getCategory(tags: string[]): CategorySlug {
     set.has('SCSS') ||
     set.has('BEM')
   ) {
-    return 'others';
+    return 'others'
   }
 
-  if (set.has('Vue') || set.has('Nuxt3') || set.has('NuxtContent')) return 'vue-nuxt';
-  if (set.has('TypeScript')) return 'typescript';
+  if (set.has('Vue') || set.has('Nuxt3') || set.has('NuxtContent')) return 'vue-nuxt'
+  if (set.has('TypeScript')) return 'typescript'
   if (
     set.has('Web') ||
     set.has('web') ||
@@ -38,9 +38,9 @@ export function getCategory(tags: string[]): CategorySlug {
     set.has('Bundler') ||
     set.has('檔案處理')
   ) {
-    return 'web-performance';
+    return 'web-performance'
   }
-  if (set.has('JavaScript')) return 'javascript';
+  if (set.has('JavaScript')) return 'javascript'
 
-  return 'others';
+  return 'others'
 }

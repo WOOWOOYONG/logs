@@ -1,26 +1,26 @@
 ---
-import TagList from './TagList.astro';
+import TagList from './TagList.astro'
 
 interface Props {
-  pubDate: Date;
-  tags?: string[];
+  pubDate: Date
+  tags?: string[]
 }
-const { pubDate, tags = [] } = Astro.props;
-const dateStr = pubDate.toISOString().slice(0, 10);
+const { pubDate, tags = [] } = Astro.props
+const dateStr = pubDate.toISOString().slice(0, 10)
 
 function relative(date: Date) {
-  const diffMs = Date.now() - date.valueOf();
-  const sec = Math.round(diffMs / 1000);
-  if (sec < 60) return '剛剛';
-  const min = Math.round(sec / 60);
-  if (min < 60) return `${min} 分鐘前`;
-  const hr = Math.round(min / 60);
-  if (hr < 24) return `${hr} 小時前`;
-  const day = Math.round(hr / 24);
-  if (day < 30) return `${day} 天前`;
-  const mon = Math.round(day / 30);
-  if (mon < 12) return `${mon} 個月前`;
-  return `${Math.round(mon / 12)} 年前`;
+  const diffMs = Date.now() - date.valueOf()
+  const sec = Math.round(diffMs / 1000)
+  if (sec < 60) return '剛剛'
+  const min = Math.round(sec / 60)
+  if (min < 60) return `${min} 分鐘前`
+  const hr = Math.round(min / 60)
+  if (hr < 24) return `${hr} 小時前`
+  const day = Math.round(hr / 24)
+  if (day < 30) return `${day} 天前`
+  const mon = Math.round(day / 30)
+  if (mon < 12) return `${mon} 個月前`
+  return `${Math.round(mon / 12)} 年前`
 }
 ---
 
