@@ -29,13 +29,13 @@ const projects = defineCollection({
     }),
 });
 
-// Streaming
-const streaming = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/streaming' }),
+// Logs
+const logs = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/logs' }),
   schema: z.object({
     pubDate: z.coerce.date(),
     tags: z.array(z.string()).default([]),
   }),
 });
 
-export const collections = { notes, projects, streaming };
+export const collections = { notes, projects, logs };

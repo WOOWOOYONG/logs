@@ -9,16 +9,16 @@ export async function getStaticPaths() {
   const isProd = import.meta.env.PROD;
   const notes = await getCollection('notes', ({ data }) => (isProd ? !data.draft : true));
   const projects = await getCollection('projects', ({ data }) => (isProd ? !data.draft : true));
-  const streaming = await getCollection('streaming');
+  const logs = await getCollection('logs');
 
-  const tagMap = new Map<string, { notes: typeof notes; projects: typeof projects; streaming: typeof streaming }>();
-  const ensure = (tag: string) => {
-    if (!tagMap.has(tag)) tagMap.set(tag, { notes: [], projects: [], streaming: [] });
-    return tagMap.get(tag)!;
+  const tagMap = new Map<string, { notes: typeof notes; projects: typeof projects; logs: typeof logs }>();
+  const ensure = (t: string) => {
+    if (!tagMap.has(t)) tagMap.set(t, { notes: [], projects: [], logs: [] });
+    return tagMap.get(t)!;
   };
-  notes.forEach((note) => note.data.tags.forEach((tag) => ensure(tag).notes.push(note)));
-  projects.forEach((project) => project.data.tags.forEach((tag) => ensure(tag).projects.push(project)));
-  streaming.forEach((post) => post.data.tags.forEach((tag) => ensure(tag).streaming.push(post)));
+  notes.forEach((n) => n.data.tags.forEach((t) => ensure(t).notes.push(n)));
+  projects.forEach((p) => p.data.tags.forEach((t) => ensure(t).projects.push(p)));
+  logs.forEach((p) => p.data.tags.forEach((t) => ensure(t).logs.push(p)));
 
   return Array.from(tagMap.entries()).map(([tag, data]) => ({
     params: { tag },
@@ -26,7 +26,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const { tag, notes, projects, streaming } = Astro.props;
+const { tag, notes, projects, logs } = Astro.props;
 notes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
@@ -36,7 +36,7 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     <p class="text-sm text-neutral-500">tag</p>
     <h1 class="text-3xl font-semibold tracking-tight">#{tag}</h1>
     <p class="mt-1 text-sm text-neutral-500">
-      {notes.length} 篇文章 · {projects.length} 個作品 · {streaming.length} 則筆記
+      {notes.length} 篇文章 · {projects.length} 個作品 · {logs.length} 則筆記
     </p>
   </header>
 
@@ -74,14 +74,14 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     </section>
   )}
 
-  {streaming.length > 0 && (
+  {logs.length > 0 && (
     <section class="mb-10">
-      <h2 class="mb-3 text-lg font-semibold">Streaming</h2>
+      <h2 class="mb-3 text-lg font-semibold">Logs</h2>
       <ul class="space-y-1 text-sm">
-        {streaming.map((post) => (
+        {logs.map((p) => (
           <li>
-            <a href="/streaming" class="text-neutral-600 hover:text-black">
-              · {post.data.pubDate.toISOString().slice(0, 10)} — {post.id}
+            <a href="/logs" class="text-neutral-600 hover:text-black">
+              · {p.data.pubDate.toISOString().slice(0, 10)} — {p.id}
             </a>
           </li>
         ))}

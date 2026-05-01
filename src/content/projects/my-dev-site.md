@@ -1,5 +1,5 @@
 ---
-title: my-logs 個人網站
+title: My-DEV 個人網站
 description: 以 Astro + Tailwind v4 打造的個人文章、作品集、子彈筆記站台。
 pubDate: 2026-04-22
 cover: ../../assets/background.svg
