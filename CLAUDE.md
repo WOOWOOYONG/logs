@@ -20,7 +20,7 @@ Astro 6 static site with Tailwind CSS v4 (via `@tailwindcss/vite`) and TypeScrip
 **Content collections** (`src/content.config.ts`) define three Zod-validated collections loaded via glob:
 - `notes` — full articles with `title`, `description?`, `pubDate`, `tags[]`, `draft`
 - `projects` — portfolio entries; add `cover` (image), `link?`, `repo?`
-- `streaming` — short-form with only `pubDate` and `tags[]`
+- `logs` — short-form with only `pubDate` and `tags[]`
 
 Draft filtering: `import.meta.env.PROD` gates `draft: true` entries out of production builds.
 
@@ -30,7 +30,7 @@ Draft filtering: `import.meta.env.PROD` gates `draft: true` entries out of produ
 - `/notes/[...slug]` — article detail using `PostLayout` (with `TableOfContents`)
 - `/projects/[...slug]` — project detail using `ProjectLayout`
 - `/tags/[tag]` — tag filter across notes
-- `/streaming` — streaming listing on homepage and dedicated page
+- `/logs` — logs listing on homepage and dedicated page
 
 **Category system** (`src/utils/category.ts`) maps tags to five fixed categories (JavaScript, Vue/Nuxt, TypeScript, Web/Performance, Others). Update this file to add or reclassify tags.
 
