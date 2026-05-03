@@ -1,11 +1,17 @@
 import { config, fields, collection } from '@keystatic/core'
 
-const isDev = process.env.NODE_ENV === 'development'
-
+// Keystatic now only manages `logs` (microblog) — long-form content (notes,
+// projects) is edited directly in this repo via your editor.
+//
+// Logs live in a separate content repo so that high-frequency entries don't
+// pollute the main repo's git history. Build pipeline (see package.json
+// `prebuild`) clones the streaming repo into `src/content/logs/` so Astro's
+// content loader can read them at build time.
 export default config({
-  storage: isDev
-    ? { kind: 'local' }
-    : { kind: 'github', repo: 'WOOWOOYONG/woowooyong-logs' },
+  storage: {
+    kind: 'github',
+    repo: 'WOOWOOYONG/woowooyong-streaming',
+  },
 
   ui: {
     brand: { name: 'my-dev' },
@@ -15,7 +21,7 @@ export default config({
     logs: collection({
       label: 'Logs',
       slugField: 'slug',
-      path: 'src/content/logs/*',
+      path: 'logs/*',
       format: { contentField: 'content' },
       columns: ['pubDate'],
       schema: {
@@ -50,31 +56,6 @@ export default config({
           label: 'Tags',
           itemLabel: (props) => props.value,
         }),
-        content: fields.markdoc({
-          label: 'Content',
-          extension: 'md',
-        }),
-      },
-    }),
-
-    notes: collection({
-      label: 'Notes',
-      slugField: 'title',
-      path: 'src/content/notes/*',
-      format: { contentField: 'content' },
-      columns: ['title', 'pubDate'],
-      schema: {
-        title: fields.slug({ name: { label: 'Title' } }),
-        description: fields.text({ label: 'Description', multiline: true }),
-        pubDate: fields.date({
-          label: 'Published',
-          defaultValue: { kind: 'today' },
-        }),
-        tags: fields.array(fields.text({ label: 'Tag' }), {
-          label: 'Tags',
-          itemLabel: (props) => props.value,
-        }),
-        draft: fields.checkbox({ label: 'Draft', defaultValue: false }),
         content: fields.markdoc({
           label: 'Content',
           extension: 'md',

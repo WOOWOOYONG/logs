@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
+    "sync:logs": "bash scripts/sync-logs.sh",
+    "prebuild": "pnpm sync:logs",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
