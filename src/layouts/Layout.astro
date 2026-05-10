@@ -9,6 +9,19 @@ interface Props {
 }
 
 const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
+
+const themeBootScript = `(function () {
+  try {
+    const storageKey = 'theme'
+    const root = document.documentElement
+    const stored = localStorage.getItem(storageKey)
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isDark = stored ? stored === 'dark' : systemPrefersDark
+
+    root.classList.toggle('dark', isDark)
+    root.style.colorScheme = isDark ? 'dark' : 'light'
+  } catch (_) {}
+})()`
 ---
 
 <!doctype html>
@@ -20,14 +33,20 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline set:html={themeBootScript} />
     <title>{title}</title>
   </head>
-  <body class="flex min-h-screen flex-col bg-white text-neutral-900 antialiased">
+  <body
+    class="flex min-h-screen flex-col bg-white text-neutral-900 antialiased dark:bg-[var(--ds-background-200)] dark:text-[var(--ds-gray-1000)]"
+  >
     <Navbar />
     <main class="mx-auto w-full max-w-4xl flex-1 px-4 py-10">
       <slot />
     </main>
-    <footer class="mx-auto w-full max-w-4xl px-4 py-10 text-xs text-neutral-400">
+    <footer
+      class="mx-auto w-full max-w-4xl px-4 py-10 text-xs text-neutral-400 dark:text-[var(--ds-gray-600)]"
+    >
       © {new Date().getFullYear()}
       {SITE_TITLE}
     </footer>

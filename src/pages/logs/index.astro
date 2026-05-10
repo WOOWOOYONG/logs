@@ -17,7 +17,11 @@ const rendered = await Promise.all(
   <header class="mb-6">
     <h1 class="text-2xl font-semibold tracking-tight">Logs</h1>
   </header>
-  {posts.length === 0 && <p class="text-sm text-neutral-500">還沒有筆記。</p>}
+  {
+    posts.length === 0 && (
+      <p class="text-sm text-neutral-500 dark:text-[var(--ds-gray-900)]">還沒有筆記。</p>
+    )
+  }
   <div class="space-y-4">
     {
       rendered.map(({ post, Content }) => (

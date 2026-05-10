@@ -36,9 +36,9 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 
 <Layout title={`#${tag} · ${SITE_TITLE}`}>
   <header class="mb-8">
-    <p class="text-sm text-neutral-500">tag</p>
+    <p class="text-sm text-neutral-500 dark:text-[var(--ds-gray-900)]">tag</p>
     <h1 class="text-3xl font-semibold tracking-tight">#{tag}</h1>
-    <p class="mt-1 text-sm text-neutral-500">
+    <p class="mt-1 text-sm text-neutral-500 dark:text-[var(--ds-gray-900)]">
       {notes.length} 篇文章 · {projects.length} 個作品 · {logs.length} 則筆記
     </p>
   </header>
@@ -88,7 +88,10 @@ projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
         <ul class="space-y-1 text-sm">
           {logs.map((p) => (
             <li>
-              <a href="/logs" class="text-neutral-600 hover:text-black">
+              <a
+                href="/logs"
+                class="text-neutral-600 transition-colors hover:text-black dark:text-[var(--ds-gray-900)] dark:hover:text-[var(--ds-gray-1000)]"
+              >
                 · {p.data.pubDate.toISOString().slice(0, 10)} — {p.id}
               </a>
             </li>

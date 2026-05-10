@@ -15,9 +15,9 @@ const { href, title, description, cover, tags = [] } = Astro.props
 
 <a
   href={href}
-  class="group block overflow-hidden rounded-xl border border-neutral-200 transition hover:border-neutral-400"
+  class="group block overflow-hidden rounded-xl border border-neutral-200 transition hover:border-neutral-400 dark:border-[var(--ds-gray-alpha-400)] dark:bg-[var(--ds-background-100)] dark:hover:border-[var(--ds-gray-600)]"
 >
-  <div class="aspect-[16/10] overflow-hidden bg-neutral-100">
+  <div class="aspect-[16/10] overflow-hidden bg-neutral-100 dark:bg-[var(--ds-gray-100)]">
     <Image
       src={cover}
       alt={title}
@@ -28,7 +28,9 @@ const { href, title, description, cover, tags = [] } = Astro.props
   </div>
   <div class="p-4">
     <h3 class="text-base font-medium underline-offset-4 group-hover:underline">{title}</h3>
-    <p class="mt-1 line-clamp-2 text-sm text-neutral-600">{description}</p>
+    <p class="mt-1 line-clamp-2 text-sm text-neutral-600 dark:text-[var(--ds-gray-900)]">
+      {description}
+    </p>
     {
       tags.length > 0 && (
         <div class="mt-3">

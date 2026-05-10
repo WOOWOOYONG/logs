@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   font-family:
     ui-sans-serif,
@@ -12,9 +14,37 @@
     'PingFang TC',
     'Noto Sans TC',
     sans-serif;
+  color-scheme: light;
+  --ds-background-100: hsl(0 0% 100%);
+  --ds-background-200: hsl(0 0% 98%);
+  --ds-gray-100: hsl(0 0% 95%);
+  --ds-gray-200: hsl(0 0% 92%);
+  --ds-gray-400: hsl(0 0% 92%);
+  --ds-gray-500: hsl(0 0% 79%);
+  --ds-gray-600: hsl(0 0% 66%);
+  --ds-gray-900: hsl(0 0% 30%);
+  --ds-gray-1000: hsl(0 0% 9%);
+  --ds-gray-alpha-400: #00000014;
+  --ds-focus-color: hsl(212 100% 48%);
+}
+
+:root.dark {
+  color-scheme: dark;
+  --ds-background-100: hsl(0 0% 4%);
+  --ds-background-200: hsl(0 0% 0%);
+  --ds-gray-100: hsl(0 0% 10%);
+  --ds-gray-200: hsl(0 0% 12%);
+  --ds-gray-400: hsl(0 0% 18%);
+  --ds-gray-500: hsl(0 0% 27%);
+  --ds-gray-600: hsl(0 0% 53%);
+  --ds-gray-900: hsl(0 0% 63%);
+  --ds-gray-1000: hsl(0 0% 93%);
+  --ds-gray-alpha-400: #ffffff24;
+  --ds-focus-color: hsl(210 100% 66%);
 }
 
 .prose-basic :where(h1, h2, h3, h4, h5, h6) {
+  @apply text-neutral-900 dark:text-[var(--ds-gray-1000)];
   scroll-margin-top: 1.5rem;
 }
 .prose-basic :where(h1) {
@@ -27,32 +57,32 @@
   @apply mt-6 mb-2 text-lg font-semibold;
 }
 .prose-basic :where(p) {
-  @apply my-4 leading-7 text-neutral-800;
+  @apply my-4 leading-7 text-neutral-800 dark:text-[var(--ds-gray-900)];
 }
 .prose-basic :where(a) {
-  @apply underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-700;
+  @apply underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-700 dark:decoration-[var(--ds-gray-500)] dark:hover:decoration-[var(--ds-gray-900)];
 }
 .prose-basic :where(ul) {
-  @apply my-4 list-disc space-y-1 pl-6;
+  @apply my-4 list-disc space-y-1 pl-6 text-neutral-800 dark:text-[var(--ds-gray-900)];
 }
 .prose-basic :where(ol) {
-  @apply my-4 list-decimal space-y-1 pl-6;
+  @apply my-4 list-decimal space-y-1 pl-6 text-neutral-800 dark:text-[var(--ds-gray-900)];
 }
 .prose-basic :where(code) {
-  @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm;
+  @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm dark:bg-[var(--ds-gray-100)] dark:text-[var(--ds-gray-1000)];
 }
 .prose-basic :where(pre) {
-  @apply my-4 overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-50;
+  @apply my-4 overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-50 dark:bg-[var(--ds-background-100)];
 }
 .prose-basic :where(pre code) {
   @apply bg-transparent p-0;
 }
 .prose-basic :where(blockquote) {
-  @apply my-4 border-l-4 border-neutral-200 pl-4 text-neutral-600 italic;
+  @apply my-4 border-l-4 border-neutral-200 pl-4 text-neutral-600 italic dark:border-[var(--ds-gray-alpha-400)] dark:text-[var(--ds-gray-900)];
 }
 .prose-basic :where(img) {
   @apply my-4 rounded-lg;
 }
 .prose-basic :where(hr) {
-  @apply my-8 border-neutral-200;
+  @apply my-8 border-neutral-200 dark:border-[var(--ds-gray-alpha-400)];
 }

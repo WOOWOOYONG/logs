@@ -20,14 +20,16 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3)
       class="hidden lg:sticky lg:top-6 lg:block lg:w-56 lg:shrink-0 lg:self-start"
       data-toc
     >
-      <p class="mb-2 text-xs font-medium tracking-wide text-neutral-400 uppercase">On this page</p>
+      <p class="mb-2 text-xs font-medium tracking-wide text-neutral-400 uppercase dark:text-[var(--ds-gray-600)]">
+        On this page
+      </p>
       <ul class="space-y-1 text-sm">
         {items.map((h) => (
           <li class:list={[h.depth === 3 && 'pl-3']}>
             <a
               href={`#${h.slug}`}
               data-toc-link={h.slug}
-              class="block truncate border-l-2 border-transparent pl-2 text-neutral-500 transition-colors hover:text-neutral-900"
+              class="block truncate border-l-2 border-transparent pl-2 text-neutral-500 transition-colors hover:text-neutral-900 dark:text-[var(--ds-gray-900)] dark:hover:text-[var(--ds-gray-1000)]"
             >
               {h.text}
             </a>
@@ -39,22 +41,30 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3)
 }
 
 <script>
-  const toc = document.querySelector<HTMLElement>('[data-toc]')
+  const toc = document.querySelector('[data-toc]')
   if (toc) {
-    const links = new Map<string, HTMLAnchorElement>()
-    toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]').forEach((a) => {
-      links.set(a.dataset.tocLink!, a)
+    const links = new Map()
+    toc.querySelectorAll('[data-toc-link]').forEach((a) => {
+      if (a instanceof HTMLAnchorElement && a.dataset.tocLink) {
+        links.set(a.dataset.tocLink, a)
+      }
     })
 
     const headings = Array.from(
-      document.querySelectorAll<HTMLElement>('.prose-basic h2[id], .prose-basic h3[id]'),
+      document.querySelectorAll('.prose-basic h2[id], .prose-basic h3[id]'),
     )
 
-    const ACTIVE = ['text-neutral-900', 'font-medium', 'border-neutral-900']
-    const INACTIVE = ['text-neutral-500', 'border-transparent']
+    const ACTIVE = [
+      'text-neutral-900',
+      'font-medium',
+      'border-neutral-900',
+      'dark:text-[var(--ds-gray-1000)]',
+      'dark:border-[var(--ds-gray-1000)]',
+    ]
+    const INACTIVE = ['text-neutral-500', 'border-transparent', 'dark:text-[var(--ds-gray-900)]']
 
-    let currentSlug: string | null = null
-    const setActive = (slug: string | null) => {
+    let currentSlug = ''
+    const setActive = (slug = '') => {
       if (slug === currentSlug) return
       if (currentSlug) {
         const prev = links.get(currentSlug)
@@ -71,7 +81,7 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3)
 
     const pickActive = () => {
       const triggerY = window.innerHeight * 0.25
-      let candidate: string | null = headings[0]?.id ?? null
+      let candidate = headings[0]?.id ?? ''
       for (const h of headings) {
         const top = h.getBoundingClientRect().top
         if (top <= triggerY) candidate = h.id

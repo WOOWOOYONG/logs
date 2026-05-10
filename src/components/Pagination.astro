@@ -19,24 +19,30 @@ const pages = Array.from({ length: lastPage }, (_, i) => i + 1)
   lastPage > 1 && (
     <nav class="mt-10 flex items-center justify-center gap-2 text-sm" aria-label="Pagination">
       {prev ? (
-        <a href={prev} class="rounded border border-neutral-200 px-3 py-1 hover:bg-neutral-100">
+        <a
+          href={prev}
+          class="rounded border border-neutral-200 px-3 py-1 transition-colors hover:bg-neutral-100 dark:border-[var(--ds-gray-alpha-400)] dark:hover:bg-[var(--ds-gray-100)]"
+        >
           ← 上一頁
         </a>
       ) : (
-        <span class="pointer-events-none rounded border border-neutral-200 px-3 py-1 text-neutral-300">
+        <span class="pointer-events-none rounded border border-neutral-200 px-3 py-1 text-neutral-300 dark:border-[var(--ds-gray-400)] dark:text-[var(--ds-gray-500)]">
           ← 上一頁
         </span>
       )}
 
       {pages.map((n) =>
         n === currentPage ? (
-          <span aria-current="page" class="rounded bg-neutral-900 px-3 py-1 text-white">
+          <span
+            aria-current="page"
+            class="rounded bg-neutral-900 px-3 py-1 text-white dark:bg-[var(--ds-gray-1000)] dark:text-[var(--ds-background-200)]"
+          >
             {n}
           </span>
         ) : (
           <a
             href={hrefFor(n)}
-            class="rounded border border-neutral-200 px-3 py-1 hover:bg-neutral-100"
+            class="rounded border border-neutral-200 px-3 py-1 transition-colors hover:bg-neutral-100 dark:border-[var(--ds-gray-alpha-400)] dark:hover:bg-[var(--ds-gray-100)]"
           >
             {n}
           </a>
@@ -44,11 +50,14 @@ const pages = Array.from({ length: lastPage }, (_, i) => i + 1)
       )}
 
       {next ? (
-        <a href={next} class="rounded border border-neutral-200 px-3 py-1 hover:bg-neutral-100">
+        <a
+          href={next}
+          class="rounded border border-neutral-200 px-3 py-1 transition-colors hover:bg-neutral-100 dark:border-[var(--ds-gray-alpha-400)] dark:hover:bg-[var(--ds-gray-100)]"
+        >
           下一頁 →
         </a>
       ) : (
-        <span class="pointer-events-none rounded border border-neutral-200 px-3 py-1 text-neutral-300">
+        <span class="pointer-events-none rounded border border-neutral-200 px-3 py-1 text-neutral-300 dark:border-[var(--ds-gray-400)] dark:text-[var(--ds-gray-500)]">
           下一頁 →
         </span>
       )}

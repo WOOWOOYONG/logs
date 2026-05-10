@@ -24,8 +24,12 @@ function relative(date: Date) {
 }
 ---
 
-<article class="rounded-xl border border-neutral-200 p-5">
-  <header class="mb-2 flex items-center justify-between text-xs text-neutral-500">
+<article
+  class="rounded-xl border border-neutral-200 p-5 dark:border-[var(--ds-gray-alpha-400)] dark:bg-[var(--ds-background-100)]"
+>
+  <header
+    class="mb-2 flex items-center justify-between text-xs text-neutral-500 dark:text-[var(--ds-gray-600)]"
+  >
     <time datetime={dateStr} title={dateStr}>{relative(pubDate)}</time>
     {tags.length > 0 && <TagList tags={tags} size="xs" />}
   </header>

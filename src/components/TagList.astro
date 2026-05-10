@@ -15,7 +15,7 @@ const textCls = size === 'xs' ? 'text-[11px]' : 'text-xs'
           <a
             href={`/tags/${t}`}
             class:list={[
-              'inline-block rounded-full border border-neutral-200 px-2 py-0.5 text-neutral-600 hover:border-neutral-400 hover:text-neutral-900',
+              'inline-block rounded-full border border-neutral-200 px-2 py-0.5 text-neutral-600 transition-colors hover:border-neutral-400 hover:text-neutral-900 dark:border-[var(--ds-gray-alpha-400)] dark:text-[var(--ds-gray-900)] dark:hover:border-[var(--ds-gray-600)] dark:hover:text-[var(--ds-gray-1000)]',
               textCls,
             ]}
           >

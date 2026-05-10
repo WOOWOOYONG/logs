@@ -16,9 +16,9 @@ function isActive(href: string) {
 }
 ---
 
-<nav class="border-b border-neutral-200">
+<nav class="border-b border-neutral-200 dark:border-neutral-800">
   <div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-    <a href="/" class="font-semibold tracking-tight">{SITE_TITLE}</a>
+    <a href="/" class="font-bold tracking-tight dark:text-neutral-100">{SITE_TITLE}</a>
 
     <ul class="hidden gap-5 text-sm sm:flex">
       {
@@ -27,8 +27,10 @@ function isActive(href: string) {
             <a
               href={link.href}
               class:list={[
-                'font-medium transition-colors hover:text-black',
-                isActive(link.href) ? 'font-bold text-black' : 'text-neutral-500',
+                'font-semibold transition-colors hover:text-black dark:hover:text-neutral-100',
+                isActive(link.href)
+                  ? 'font-bold text-black dark:text-neutral-100'
+                  : 'text-neutral-500 dark:text-neutral-400',
               ]}
             >
               {link.label}
@@ -38,16 +40,29 @@ function isActive(href: string) {
       }
     </ul>
 
-    <button
-      type="button"
-      id="nav-open"
-      aria-label="Open menu"
-      aria-controls="mobile-menu"
-      aria-expanded="false"
-      class="inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 sm:hidden"
-    >
-      <Icon name="lucide:menu" class="h-5 w-5" />
-    </button>
+    <div class="flex items-center gap-1">
+      <button
+        type="button"
+        id="theme-toggle"
+        aria-label="切換深色模式"
+        aria-pressed="false"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+      >
+        <Icon name="lucide:sun" class="hidden h-5 w-5 dark:block" />
+        <Icon name="lucide:moon" class="block h-5 w-5 dark:hidden" />
+      </button>
+
+      <button
+        type="button"
+        id="nav-open"
+        aria-label="Open menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 transition-colors hover:bg-neutral-100 sm:hidden dark:text-neutral-300 dark:hover:bg-neutral-800"
+      >
+        <Icon name="lucide:menu" class="h-5 w-5" />
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -56,15 +71,17 @@ function isActive(href: string) {
   role="dialog"
   aria-modal="true"
   aria-label="Mobile navigation"
-  class="invisible fixed inset-0 z-50 bg-white opacity-0 transition-opacity duration-200 sm:hidden"
+  class="invisible fixed inset-0 z-50 bg-white opacity-0 transition-opacity duration-200 sm:hidden dark:bg-neutral-950"
 >
-  <div class="flex h-16 items-center justify-between border-b border-neutral-200 px-4">
-    <span class="font-semibold tracking-tight">{SITE_TITLE}</span>
+  <div
+    class="flex h-16 items-center justify-between border-b border-neutral-200 px-4 dark:border-neutral-800"
+  >
+    <span class="font-semibold tracking-tight dark:text-neutral-100">{SITE_TITLE}</span>
     <button
       type="button"
       id="nav-close"
       aria-label="Close menu"
-      class="inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100"
+      class="inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
     >
       <Icon name="lucide:x" class="h-5 w-5" />
     </button>
@@ -78,8 +95,10 @@ function isActive(href: string) {
             href={link.href}
             data-nav-link
             class:list={[
-              'block py-3 text-lg font-medium transition-colors hover:text-black',
-              isActive(link.href) ? 'font-bold text-black' : 'text-neutral-600',
+              'block py-3 text-lg font-medium transition-colors hover:text-black dark:hover:text-neutral-100',
+              isActive(link.href)
+                ? 'font-bold text-black dark:text-neutral-100'
+                : 'text-neutral-600 dark:text-neutral-400',
             ]}
           >
             {link.label}
@@ -91,10 +110,48 @@ function isActive(href: string) {
 </div>
 
 <script>
+  const storageKey = 'theme'
+  const root = document.documentElement
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+  const themeToggle = document.getElementById('theme-toggle')
   const openBtn = document.getElementById('nav-open')
   const closeBtn = document.getElementById('nav-close')
   const menu = document.getElementById('mobile-menu')
   const navLinks = menu?.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')
+
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem(storageKey)
+    } catch {
+      return null
+    }
+  }
+
+  function setStoredTheme(value: 'light' | 'dark') {
+    try {
+      localStorage.setItem(storageKey, value)
+    } catch {
+      return
+    }
+  }
+
+  function applyTheme(isDark: boolean) {
+    root.classList.toggle('dark', isDark)
+    root.style.colorScheme = isDark ? 'dark' : 'light'
+    themeToggle?.setAttribute('aria-pressed', String(isDark))
+    themeToggle?.setAttribute('aria-label', isDark ? '切換為淺色模式' : '切換為深色模式')
+  }
+
+  function toggleTheme() {
+    const isDark = !root.classList.contains('dark')
+    setStoredTheme(isDark ? 'dark' : 'light')
+    applyTheme(isDark)
+  }
+
+  function syncWithSystem(event: MediaQueryListEvent) {
+    if (getStoredTheme()) return
+    applyTheme(event.matches)
+  }
 
   function openMenu() {
     if (!menu || !openBtn) return
@@ -112,6 +169,9 @@ function isActive(href: string) {
     document.body.style.overflow = ''
   }
 
+  applyTheme(root.classList.contains('dark'))
+  themeToggle?.addEventListener('click', toggleTheme)
+  systemTheme.addEventListener?.('change', syncWithSystem)
   openBtn?.addEventListener('click', openMenu)
   closeBtn?.addEventListener('click', closeMenu)
   navLinks?.forEach((link) => link.addEventListener('click', closeMenu))
