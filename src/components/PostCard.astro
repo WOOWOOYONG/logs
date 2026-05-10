@@ -13,13 +13,13 @@ const dateStr = pubDate.toISOString().slice(0, 10)
 ---
 
 <article
-  class="border-b border-neutral-100 py-5 last:border-0 dark:border-[var(--ds-gray-alpha-400)]"
+  class="border-b border-neutral-100 py-5 last:border-0 dark:border-(--ds-gray-alpha-400)"
 >
   <a href={href} class="group block">
     <div class="flex items-baseline justify-between gap-4">
       <h3 class="text-base font-medium underline-offset-4 group-hover:underline">{title}</h3>
       <time
-        class="shrink-0 text-xs text-neutral-400 dark:text-[var(--ds-gray-600)]"
+        class="shrink-0 text-xs text-neutral-400 dark:text-(--ds-gray-600)"
         datetime={dateStr}
       >
         {dateStr}
@@ -27,7 +27,7 @@ const dateStr = pubDate.toISOString().slice(0, 10)
     </div>
     {
       description && (
-        <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600 dark:text-[var(--ds-gray-900)]">
+        <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600 dark:text-(--ds-gray-900)">
           {description}
         </p>
       )

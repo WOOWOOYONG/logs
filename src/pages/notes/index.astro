@@ -27,7 +27,7 @@ const page = { currentPage: 1, lastPage }
 <Layout title={`Notes · ${SITE_TITLE}`}>
   <header class="mb-6">
     <h1 class="text-2xl font-semibold tracking-tight">Notes</h1>
-    <p class="mt-1 text-sm text-neutral-500 dark:text-[var(--ds-gray-900)]">個人文章</p>
+    <p class="mt-1 text-sm text-neutral-500 dark:text-(--ds-gray-900)">個人文章</p>
   </header>
 
   <div class="md:flex md:gap-10">
@@ -36,7 +36,7 @@ const page = { currentPage: 1, lastPage }
     <div class="mt-6 min-w-0 flex-1 md:mt-0">
       {
         data.length === 0 && (
-          <p class="text-sm text-neutral-500 dark:text-[var(--ds-gray-900)]">還沒有文章。</p>
+          <p class="text-sm text-neutral-500 dark:text-(--ds-gray-900)">還沒有文章。</p>
         )
       }
 

@@ -21,7 +21,7 @@ const items = [
 
 <nav class="md:sticky md:top-6 md:w-44 md:shrink-0 md:self-start" aria-label="Categories">
   <p
-    class="mb-2 hidden text-xs font-medium tracking-wide text-neutral-400 uppercase md:block dark:text-[var(--ds-gray-600)]"
+    class="mb-2 hidden text-xs font-medium tracking-wide text-neutral-400 uppercase md:block dark:text-(--ds-gray-600)"
   >
     Categories
   </p>
@@ -36,8 +36,8 @@ const items = [
             class:list={[
               'flex items-center justify-between gap-3 rounded-full px-3 py-1.5 text-sm whitespace-nowrap md:rounded-md',
               active === it.slug
-                ? 'bg-neutral-900 text-white dark:bg-[var(--ds-gray-1000)] dark:text-[var(--ds-background-200)]'
-                : 'text-neutral-700 hover:bg-neutral-100 dark:text-[var(--ds-gray-900)] dark:hover:bg-[var(--ds-gray-100)]',
+                ? 'bg-neutral-900 text-white dark:bg-(--ds-gray-1000) dark:text-(--ds-background-200)'
+                : 'text-neutral-700 hover:bg-neutral-100 dark:text-(--ds-gray-900) dark:hover:bg-(--ds-gray-100)',
             ]}
           >
             <span>{it.name}</span>
@@ -45,8 +45,8 @@ const items = [
               class:list={[
                 'text-xs',
                 active === it.slug
-                  ? 'text-neutral-300 dark:text-[var(--ds-gray-500)]'
-                  : 'text-neutral-400 dark:text-[var(--ds-gray-600)]',
+                  ? 'text-neutral-300 dark:text-(--ds-gray-500)'
+                  : 'text-neutral-400 dark:text-(--ds-gray-600)',
               ]}
             >
               {it.count}

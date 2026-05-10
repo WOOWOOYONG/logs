@@ -44,7 +44,7 @@
 }
 
 .prose-basic :where(h1, h2, h3, h4, h5, h6) {
-  @apply text-neutral-900 dark:text-[var(--ds-gray-1000)];
+  @apply text-neutral-900 dark:text-(--ds-gray-1000);
   scroll-margin-top: 1.5rem;
 }
 .prose-basic :where(h1) {
@@ -57,32 +57,32 @@
   @apply mt-6 mb-2 text-lg font-semibold;
 }
 .prose-basic :where(p) {
-  @apply my-4 leading-7 text-neutral-800 dark:text-[var(--ds-gray-900)];
+  @apply my-4 leading-7 text-neutral-800 dark:text-(--ds-gray-900);
 }
 .prose-basic :where(a) {
-  @apply underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-700 dark:decoration-[var(--ds-gray-500)] dark:hover:decoration-[var(--ds-gray-900)];
+  @apply underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-700 dark:decoration-(--ds-gray-500) dark:hover:decoration-(--ds-gray-900);
 }
 .prose-basic :where(ul) {
-  @apply my-4 list-disc space-y-1 pl-6 text-neutral-800 dark:text-[var(--ds-gray-900)];
+  @apply my-4 list-disc space-y-1 pl-6 text-neutral-800 dark:text-(--ds-gray-900);
 }
 .prose-basic :where(ol) {
-  @apply my-4 list-decimal space-y-1 pl-6 text-neutral-800 dark:text-[var(--ds-gray-900)];
+  @apply my-4 list-decimal space-y-1 pl-6 text-neutral-800 dark:text-(--ds-gray-900);
 }
 .prose-basic :where(code) {
-  @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm dark:bg-[var(--ds-gray-100)] dark:text-[var(--ds-gray-1000)];
+  @apply rounded bg-neutral-100 px-1.5 py-0.5 text-sm dark:bg-(--ds-gray-100) dark:text-(--ds-gray-1000);
 }
 .prose-basic :where(pre) {
-  @apply my-4 overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-50 dark:bg-[var(--ds-background-100)];
+  @apply my-4 overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm text-neutral-50 dark:bg-(--ds-background-100);
 }
 .prose-basic :where(pre code) {
   @apply bg-transparent p-0;
 }
 .prose-basic :where(blockquote) {
-  @apply my-4 border-l-4 border-neutral-200 pl-4 text-neutral-600 italic dark:border-[var(--ds-gray-alpha-400)] dark:text-[var(--ds-gray-900)];
+  @apply my-4 border-l-4 border-neutral-200 pl-4 text-neutral-600 italic dark:border-(--ds-gray-alpha-400) dark:text-(--ds-gray-900);
 }
 .prose-basic :where(img) {
   @apply my-4 rounded-lg;
 }
 .prose-basic :where(hr) {
-  @apply my-8 border-neutral-200 dark:border-[var(--ds-gray-alpha-400)];
+  @apply my-8 border-neutral-200 dark:border-(--ds-gray-alpha-400);
 }

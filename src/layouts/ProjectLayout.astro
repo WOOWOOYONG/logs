@@ -21,14 +21,14 @@ const dateStr = pubDate.toISOString().slice(0, 10)
   <article>
     <header class="mb-8">
       <div
-        class="mb-6 overflow-hidden rounded-xl border border-neutral-200 dark:border-[var(--ds-gray-alpha-400)]"
+        class="mb-6 overflow-hidden rounded-xl border border-neutral-200 dark:border-(--ds-gray-alpha-400)"
       >
         <Image src={cover} alt={title} class="w-full object-cover" widths={[640, 1080, 1600]} />
       </div>
       <h1 class="text-3xl font-semibold tracking-tight">{title}</h1>
-      <p class="mt-2 text-neutral-600 dark:text-[var(--ds-gray-900)]">{description}</p>
+      <p class="mt-2 text-neutral-600 dark:text-(--ds-gray-900)">{description}</p>
       <div
-        class="mt-4 flex flex-wrap items-center gap-3 text-xs text-neutral-500 dark:text-[var(--ds-gray-600)]"
+        class="mt-4 flex flex-wrap items-center gap-3 text-xs text-neutral-500 dark:text-(--ds-gray-600)"
       >
         <time datetime={dateStr}>{dateStr}</time>
         <TagList tags={tags} size="xs" />

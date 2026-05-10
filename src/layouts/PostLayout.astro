@@ -23,15 +23,15 @@ const dateStr = pubDate.toISOString().slice(0, 10)
 <Layout title={title} description={description}>
   <div class="lg:flex lg:gap-10">
     <article class="min-w-0 flex-1">
-      <header class="mb-8 border-b border-neutral-100 pb-6 dark:border-[var(--ds-gray-alpha-400)]">
+      <header class="mb-8 border-b border-neutral-100 pb-6 dark:border-(--ds-gray-alpha-400)">
         <h1 class="text-3xl font-semibold tracking-tight">{title}</h1>
         {
           description && (
-            <p class="mt-2 text-neutral-600 dark:text-[var(--ds-gray-900)]">{description}</p>
+            <p class="mt-2 text-neutral-600 dark:text-(--ds-gray-900)">{description}</p>
           )
         }
         <div
-          class="mt-4 flex items-center gap-3 text-xs text-neutral-500 dark:text-[var(--ds-gray-600)]"
+          class="mt-4 flex items-center gap-3 text-xs text-neutral-500 dark:text-(--ds-gray-600)"
         >
           <time datetime={dateStr}>{dateStr}</time>
           <TagList tags={tags} size="xs" />

@@ -38,14 +38,14 @@ const themeBootScript = `(function () {
     <title>{title}</title>
   </head>
   <body
-    class="flex min-h-screen flex-col bg-white text-neutral-900 antialiased dark:bg-[var(--ds-background-200)] dark:text-[var(--ds-gray-1000)]"
+    class="flex min-h-screen flex-col bg-white text-neutral-900 antialiased dark:bg-(--ds-background-200) dark:text-(--ds-gray-1000)"
   >
     <Navbar />
     <main class="mx-auto w-full max-w-4xl flex-1 px-4 py-10">
       <slot />
     </main>
     <footer
-      class="mx-auto w-full max-w-4xl px-4 py-10 text-xs text-neutral-400 dark:text-[var(--ds-gray-600)]"
+      class="mx-auto w-full max-w-4xl px-4 py-10 text-xs text-neutral-400 dark:text-(--ds-gray-600)"
     >
       © {new Date().getFullYear()}
       {SITE_TITLE}
