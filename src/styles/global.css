@@ -80,6 +80,16 @@
 .prose-basic :where(blockquote) {
   @apply my-4 border-l-4 border-neutral-200 pl-4 text-neutral-600 italic dark:border-(--ds-gray-alpha-400) dark:text-(--ds-gray-900);
 }
+.prose-basic :where(table) {
+  @apply my-5 block w-full overflow-x-auto text-left text-sm;
+  border-collapse: collapse;
+}
+.prose-basic :where(th) {
+  @apply border-b border-neutral-200 px-4 py-2 font-semibold whitespace-nowrap text-neutral-900 dark:border-(--ds-gray-alpha-400) dark:text-(--ds-gray-1000);
+}
+.prose-basic :where(td) {
+  @apply border-b border-neutral-100 px-4 py-2 align-top whitespace-nowrap text-neutral-800 dark:border-(--ds-gray-alpha-400) dark:text-(--ds-gray-900);
+}
 .prose-basic :where(img) {
   @apply my-4 rounded-lg;
 }
