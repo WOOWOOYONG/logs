@@ -20,7 +20,7 @@ const { title, description, pubDate, tags = [], headings = [] } = Astro.props
 const dateStr = pubDate.toISOString().slice(0, 10)
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} ogType="article">
   <div class="lg:flex lg:gap-10">
     <article class="min-w-0 flex-1">
       <header class="mb-8 border-b border-neutral-100 pb-6 dark:border-(--ds-gray-alpha-400)">
